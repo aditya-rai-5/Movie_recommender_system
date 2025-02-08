@@ -109,11 +109,11 @@ st.markdown(
 
         @keyframes fadeIn {
             from {
-                opacity: 1;
+                opacity: 0;
                 transform: translateY(20px);
             }
             to {
-                opacity: 0.7;
+                opacity: 0.2;
                 transform: translateY(10px);
             }
         }
