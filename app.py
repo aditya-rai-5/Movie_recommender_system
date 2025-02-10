@@ -3,11 +3,12 @@ import pickle
 import pandas as pd
 import requests
 import time
+import speech_recognition as sr
 
 st.markdown(
     """
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+        
 
         * {
             font-family: 'Poppins', sans-serif;
@@ -35,10 +36,10 @@ st.markdown(
             display: flex;
             align-items: flex-start;
             margin-bottom: 20px;
-            background: rgba(255, 255, 220, 0.5);
+            background: rgba(215, 245, 220, 0.5);
             border-radius: 10px;
             padding: 10px;
-            border-color: rgba(240,233,254,0.7);
+            border-color: rgba(240,100,254,0.7);
             animation: fadeIn 0.5s ease-in-out;
         }
 
@@ -47,7 +48,7 @@ st.markdown(
         }
 
         .movie-poster {
-            border-radius: 10px;
+            border-radius: 8px;
             margin-right: 20px;
             width: 120px;
         }
@@ -109,11 +110,11 @@ st.markdown(
 
         @keyframes fadeIn {
             from {
-                opacity: 0;
+                opacity: 1;
                 transform: translateY(20px);
             }
             to {
-                opacity: 0.2;
+                opacity: 0.7;
                 transform: translateY(10px);
             }
         }
@@ -175,8 +176,23 @@ def collaborative_recommendations(movie, k=20):
 def recommendations(movie, k_content=30, k_collaborative=20):
     content_recs = content_based_recommendations(movie).head(k_content)
     collaborative_recs = collaborative_recommendations(movie, k=k_collaborative)
-    combined_recs = pd.concat([content_recs, collaborative_recs]).drop_duplicates(subset=['movie_id'])
-    return combined_recs[['title', 'movie_id', 'vote_average', 'vote_count']].head(k_content + k_collaborative)
+
+    content_list = content_recs.to_dict(orient='records')
+    collaborative_list = collaborative_recs.to_dict(orient='records')
+
+    interleaved_recommendations = []
+    i, j = 0, 0
+
+    while len(interleaved_recommendations) < (k_content + k_collaborative):
+        if i < len(content_list):  #add 3 content-based recommended movies
+            interleaved_recommendations.extend(content_list[i:i+3])
+            i += 3
+        if j < len(collaborative_list):  #add 2 collaborative-based recommended movies.
+            interleaved_recommendations.extend(collaborative_list[j:j+2])
+            j += 2
+
+    return pd.DataFrame(interleaved_recommendations).head(k_content + k_collaborative)
+
 
 
 st.title('🎬 Movie Recommender System')
@@ -200,6 +216,7 @@ if st.button('Recommend'):
                 <div class="movie-info">
                     <h3 class="movie-title">{row['title']}</h3>
                     <p class="movie-rating">⭐ {row['vote_average']} ({row['vote_count']} votes)</p>
+                    <p class="main-characters"><strong>Cast:</strong> {main_characters}</p>
                     <p class="movie-overview">{overview}</p>
                     <p class='homepage'>{homepage_link}</p>
                 </div>
