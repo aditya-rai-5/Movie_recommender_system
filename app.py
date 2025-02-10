@@ -3,7 +3,6 @@ import pickle
 import pandas as pd
 import requests
 import time
-import speech_recognition as sr
 
 st.markdown(
     """
