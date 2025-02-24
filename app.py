@@ -3,12 +3,14 @@ import pickle
 import pandas as pd
 import requests
 import time
+from sklearn.preprocessing import StandardScaler
+from sklearn.neighbors import NearestNeighbors
+from sklearn.pipeline import Pipeline
+from sklearn.decomposition import TruncatedSVD
 
 st.markdown(
     """
     <style>
-        
-
         * {
             font-family: 'Poppins', sans-serif;
         }
@@ -85,7 +87,6 @@ st.markdown(
         [theme]
         base="dark"
 
-
         .movie-homepage {
             margin-top: 15px;
             color: #1db954;
@@ -106,7 +107,6 @@ st.markdown(
             color: #147a3a;
         }
 
-
         @keyframes fadeIn {
             from {
                 opacity: 1;
@@ -122,13 +122,21 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# Load movie data and similarity matrix
 movies_dict = pickle.load(open('movie_dict.pkl', 'rb'))
 movies = pd.DataFrame(movies_dict)
 similarity = pickle.load(open('similarity.pkl', 'rb'))
 
-# TMDb API key
-TMDB_API_KEY = "029020e5a5e075338d1029cb7fc7a862"
+features = movies[['popularity', 'vote_average', 'vote_count']]  # Add 'score' if present
+
+knn_pipeline = Pipeline([
+    ('scaler', StandardScaler()),
+    ('svd', TruncatedSVD(n_components=2)),
+    ('knn', NearestNeighbors(n_neighbors=15, metric='cosine'))
+])
+
+knn_pipeline.fit(features)
+
+TMDB_API_KEY = "029020e5a5e075338d1029cb7fc7a862" #call the api key to get te information
 
 def get_movie_details(movie_id):
     """Fetch movie poster, overview, main characters, and homepage URL from TMDb API."""
@@ -164,15 +172,26 @@ def content_based_recommendations(movie, k=30):
         'vote_count': movies.iloc[i[0]].vote_count 
     } for i in movies_list])
 
-def collaborative_recommendations(movie, k=20):
+def collaborative_recommendations(movie, k=10):
     movie_index = movies[movies['title'] == movie].index[0]
-    movie_cluster = movies.loc[movie_index, 'cluster']
-    cluster_movies = movies[movies['cluster'] == movie_cluster]
-    cluster_movies = cluster_movies.sort_values(by='score', ascending=False)
-    cluster_movies = cluster_movies[cluster_movies['title'] != movie]
-    return cluster_movies[['title', 'movie_id', 'vote_average', 'vote_count']].head(k)
+    movie_features = features.iloc[movie_index].values.reshape(1, -1)
+    
+    transformed_features = knn_pipeline.named_steps['scaler'].transform(movie_features)
+    if 'svd' in knn_pipeline.named_steps:
+        transformed_features = knn_pipeline.named_steps['svd'].transform(transformed_features)
+    distances, indices = knn_pipeline.named_steps['knn'].kneighbors(transformed_features)
+    
+    movies_list = indices.flatten()[1:k+1]
+    return pd.DataFrame([
+        {
+            'title': movies.iloc[i].title,
+            'movie_id': movies.iloc[i].movie_id,
+            'vote_average': movies.iloc[i].vote_average,
+            'vote_count': movies.iloc[i].vote_count
+        } for i in movies_list
+    ])
 
-def recommendations(movie, k_content=30, k_collaborative=20):
+def recommendations(movie, k_content=15, k_collaborative=10):
     content_recs = content_based_recommendations(movie).head(k_content)
     collaborative_recs = collaborative_recommendations(movie, k=k_collaborative)
 
@@ -183,19 +202,17 @@ def recommendations(movie, k_content=30, k_collaborative=20):
     i, j = 0, 0
 
     while len(interleaved_recommendations) < (k_content + k_collaborative):
-        if i < len(content_list):  #add 3 content-based recommended movies
+        if i < len(content_list):
             interleaved_recommendations.extend(content_list[i:i+3])
             i += 3
-        if j < len(collaborative_list):  #add 2 collaborative-based recommended movies.
+        if j < len(collaborative_list):
             interleaved_recommendations.extend(collaborative_list[j:j+2])
             j += 2
 
     return pd.DataFrame(interleaved_recommendations).head(k_content + k_collaborative)
 
-
-
+# Streamlit UI (same as yours, just the core part)
 st.title('🎬 Movie Recommender System')
-
 selected_movie_name = st.selectbox('Select a movie:', movies['title'].values)
 
 if st.button('Recommend'):
