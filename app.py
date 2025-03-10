@@ -136,7 +136,10 @@ knn_pipeline = Pipeline([
 
 knn_pipeline.fit(features)
 
-TMDB_API_KEY = "029020e5a5e075338d1029cb7fc7a862" #call the api key to get te information
+TMDB_API_KEY = <p style="filter: blur(4px);">
+  "029020e5a5e075338d1029cb7fc7a862"
+</p>
+"029020e5a5e075338d1029cb7fc7a862" #call the api key to get te information
 
 def get_movie_details(movie_id):
     """Fetch movie poster, overview, main characters, and homepage URL from TMDb API."""
