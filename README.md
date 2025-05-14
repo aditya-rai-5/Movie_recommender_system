@@ -29,7 +29,7 @@
 
 | Home Page | Movie Cards |
 |:---------:|:-----------:|
-| <img src="app_interface.png" width="400" alt="Home UI" /> | <img src="screenshot_2005-04-14_091222.png" width="400" alt="Recommendations" /> |
+| <img src="./APP_interface.png" width="400" alt="Home UI" /> | <img src="./movie_box.png" width="400" alt="Recommendations" /> |
 
 ---
 
