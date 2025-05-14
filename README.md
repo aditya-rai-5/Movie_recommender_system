@@ -6,12 +6,14 @@
 
 # 🎥 AI Movie Recommender
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue?logo=python)](https://www.python.org/)
 [![Streamlit](https://img.shields.io/badge/Built%20with-Streamlit-orange?logo=streamlit)](https://streamlit.io/)
+[![Machine Learning](https://img.shields.io/badge/Machine%20Learning-Enabled-purple?logo=scikit-learn)](#)
+[![Entertainment](https://img.shields.io/badge/Category-Entertainment-yellow?logo=popos)](#)
 [![Status](https://img.shields.io/badge/Project-Active-brightgreen.svg)](#)
 
-> **A smart AI-powered movie recommender system** combining collaborative & content-based filtering with real-time **voice search** and **query parameter-based navigation**. Elegant dark UI, OMDB integration, and genre filters included.
+
+> **A smart AI-powered movie recommender system** combining collaborative & content-based filtering. Elegant dark UI, OMDB integration, and genre filters included.
 
 ---
 
