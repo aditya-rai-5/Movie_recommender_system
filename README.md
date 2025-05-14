@@ -6,16 +6,18 @@
 
 # 🎥 AI Movie Recommender
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)  
-[![Python](https://img.shields.io/badge/Python-3.8%2B-blue)](https://www.python.org/)  
-[![Streamlit](https://img.shields.io/badge/Streamlit-%F0%9F%8C%8D-orange)](https://streamlit.io/)  
-[![Demo Video](https://img.shields.io/badge/Demo%20Video-Local-green)](./demo.mp4)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Python](https://img.shields.io/badge/Python-3.8%2B-blue?logo=python)](https://www.python.org/)
+[![Streamlit](https://img.shields.io/badge/Built%20with-Streamlit-orange?logo=streamlit)](https://streamlit.io/)
+[![Status](https://img.shields.io/badge/Project-Active-brightgreen.svg)](#)
 
-> A **hybrid AI** movie recommender—combining content‑based & collaborative filtering—with a sleek dark UI and **voice‑activated** search interface.  
+> **A smart AI-powered movie recommender system** combining collaborative & content-based filtering with real-time **voice search** and **query parameter-based navigation**. Elegant dark UI, OMDB integration, and genre filters included.
 
 ---
 
 ## 🚀 Live Demo
+
+🎬 Watch the demo below:
 
 <video src="./demo.mp4" controls autoplay loop muted style="max-width:100%; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.3)"></video>
 
@@ -23,37 +25,49 @@
 
 ## 📸 Screenshots
 
-| App Interface | Recommendation Cards |
-|:----------------------:|:--------------------:|
-| <img src="screenshots/voice_search.png" alt="Voice Search" width="400" /> | <img src="screenshots/recommendation_cards.png" alt="Recommendation Cards" width="400" /> |
+| Home Page | Movie Cards |
+|:---------:|:-----------:|
+| <img src="app_interface.png" width="400" alt="Home UI" /> | <img src="screenshot_2005-04-14_091222.png" width="400" alt="Recommendations" /> |
 
 ---
 
 ## 🔥 Features
 
-- **🎯 Hybrid Recommendations** – leverages both content‑based (genres, cast, popularity) and collaborative filtering via KNN + SVD :contentReference[oaicite:0]{index=0}  
-- **🎤 Voice Search** – speak the movie title; powered by SpeechRecognition & PyAudio :contentReference[oaicite:1]{index=1}  
-- **🌑 Dark Theme** – custom CSS for a modern, immersive UI :contentReference[oaicite:2]{index=2}  
-- **📊 Dynamic OMDB Integration** – real‑time poster, overview, cast, and IMDb links fetched via OMDB API  
-- **🎛️ Genre Filtering** – refine suggestions through multi‑select sidebar filters  
+- 🎯 **Hybrid Recommendation Engine**  
+  Combines:
+  - *Content-based filtering* (genres, cast, overview)
+  - *Collaborative filtering* using KNN + Truncated SVD
+
+- 🔗 **OMDB Integration**  
+  Dynamically fetches posters, IMDb links, ratings & cast using OMDB API
+
+- 🎛️ **Genre Filtering**  
+  Sidebar filter to narrow down results based on genre(s)
+
+- 🌌 **Dark Mode UI**  
+  Custom CSS for an immersive experience
+
+- 🔗 **Smart Query URLs**  
+  Search state preserved via `?movie=` query parameters
 
 ---
 
-## 🛠️ Tech Stack & Skills
+## 🛠️ Tech Stack & Skills Used
 
-| Layer                 | Technologies & Skills                                          |
-|-----------------------|----------------------------------------------------------------|
-| Frontend & UI         | Streamlit, HTML/CSS, custom theming                            |
-| Recommender Engine    | scikit‑learn (StandardScaler, TruncatedSVD, NearestNeighbors)  |
-| Data Handling         | pandas, pickle, CSV                                            |
-| API Integration       | OMDB API, requests                                             |
-| Deployment & Tools    | Git, GitHub                               |
+| Layer                    | Technologies & Tools                                       |
+|--------------------------|------------------------------------------------------------|
+| **Frontend & UI**        | Streamlit, HTML/CSS, Dark theme CSS                        |
+| **Recommendation Engine**| Scikit-learn: KNN, TruncatedSVD, cosine similarity         |
+| **Data Handling**        | pandas, pickle, CSV                                        |
+| **External APIs**        | OMDB API, requests                                         |
+| **Deployment & DevOps**  | Git, GitHub, Streamlit CLI                                 |
 
 ---
 
-## 📦 Installation
+## ⚙️ Installation & Setup
 
 ```bash
 git clone https://github.com/aditya-rai-5/movie-recommender.git
 cd movie-recommender
 pip install -r requirements.txt
+streamlit run app.py
