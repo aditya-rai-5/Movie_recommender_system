@@ -23,7 +23,7 @@
 
 ## 📸 Screenshots
 
-| Voice Search in Action | Recommendation Cards |
+| App Interface | Recommendation Cards |
 |:----------------------:|:--------------------:|
 | <img src="screenshots/voice_search.png" alt="Voice Search" width="400" /> | <img src="screenshots/recommendation_cards.png" alt="Recommendation Cards" width="400" /> |
 
