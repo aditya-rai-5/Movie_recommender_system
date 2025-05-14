@@ -17,13 +17,6 @@
 
 ---
 
-## 🚀 Live Demo
-
-🎬 Watch the demo below:
-
-<video src="./demo1.mp4" controls autoplay loop muted style="max-width:100%; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.3)"></video>
-
----
 
 ## 📸 Screenshots
 
